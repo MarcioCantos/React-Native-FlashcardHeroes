@@ -11,10 +11,11 @@ export default class App extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1 }}>
+				<DeckNew />
 				{/* <DecksList /> */}
 				{/* <CardPage /> */}
 				{/* <CardNew /> */}
-				<DeckPage />
+				{/* <DeckPage /> */}
 			</View>
 		);
 	}

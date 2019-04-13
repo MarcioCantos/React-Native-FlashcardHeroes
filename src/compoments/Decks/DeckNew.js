@@ -4,20 +4,25 @@ import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { SubmitBtn } from '../shared/SubmitBtn';
 import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
+import { submitDeckEntry } from '../../utils/api';
 
 export default class DeckNew extends Component {
 	state = {
-		question: '',
-		answer: ''
+		title: ''
 	};
 
-	handleInputChange = (input, name) => {
+	handleInputChange = (input) => {
 		this.setState(() => ({
-			[name]: input
+			title: input
 		}));
 	};
 
-	submit() {}
+	submit() {
+		const key = this.state.title.trim();
+		const entry = this.state;
+
+		submitDeckEntry({ key, entry });
+	}
 
 	render() {
 		return (
@@ -27,8 +32,8 @@ export default class DeckNew extends Component {
 						<Question>Get a nice title!</Question>
 						<InputContainer style={{ marginTop: 150 }}>
 							<Input
-								value={this.state.answer}
-								onChangeText={(e) => this.handleInputChange(e, 'answer')}
+								value={this.state.title}
+								onChangeText={this.handleInputChange}
 								placeholder={'My wonderful deck title is...'}
 							/>
 						</InputContainer>
