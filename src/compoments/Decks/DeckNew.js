@@ -5,21 +5,31 @@ import styled from 'styled-components/native';
 import { SubmitBtn } from '../shared/SubmitBtn';
 import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
 import { submitDeckEntry } from '../../utils/api';
+import { connect } from 'react-redux';
+import { addDeck } from '../../actions';
 
-export default class DeckNew extends Component {
+class DeckNew extends Component {
 	state = {
+		id: '',
 		title: ''
 	};
 
 	handleInputChange = (input) => {
 		this.setState(() => ({
+			id: input.trim(),
 			title: input
 		}));
 	};
 
 	submit() {
-		const key = this.state.title.trim();
+		const key = this.state.id;
 		const entry = this.state;
+
+		this.props.dispatch(
+			addDeck({
+				[key]: entry
+			})
+		);
 
 		submitDeckEntry({ key, entry });
 	}
@@ -93,3 +103,13 @@ const styles = StyleSheet.create({
 		width: 100
 	}
 });
+
+function mapStateToProps(state) {
+	console.log('state: ', state);
+
+	return {
+		state
+	};
+}
+
+export default connect(mapStateToProps)(DeckNew);

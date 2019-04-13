@@ -1,5 +1,8 @@
 import React from 'react';
 import { View } from 'react-native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './src/reducers';
 //Components
 import DecksList from './src/compoments/Decks';
 import DeckNew from './src/compoments/Decks/DeckNew';
@@ -10,13 +13,11 @@ import CardNew from './src/compoments/Cards/CardNew';
 export default class App extends React.Component {
 	render() {
 		return (
-			<View style={{ flex: 1 }}>
-				<DeckNew />
-				{/* <DecksList /> */}
-				{/* <CardPage /> */}
-				{/* <CardNew /> */}
-				{/* <DeckPage /> */}
-			</View>
+			<Provider store={createStore(reducer)}>
+				<View style={{ flex: 1 }}>
+					<DeckNew />
+				</View>
+			</Provider>
 		);
 	}
 }

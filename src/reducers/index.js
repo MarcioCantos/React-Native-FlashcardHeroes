@@ -1,6 +1,6 @@
 import { RECEIVE_DECKS, ADD_DECK, ADD_CARD, REMOVE_DECK, REMOVE_CARD } from '../actions';
 
-function decks(state = [], action) {
+function decks(state = {}, action) {
 	switch (action.type) {
 		case RECEIVE_DECKS:
 			return { ...action.decks };
