@@ -1,45 +1,51 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialCommunityIcons, AntDesign, Foundation } from '@expo/vector-icons';
 //Helpers
-import { getBackgroundColor, COLOR_TITLE, COLOR_DETAIL, DECKPAGE_COLOR, DECKDETAILS_COLOR } from '../../utils/helpers';
-import { SubmitBtn } from '../shared/SubmitBtn';
-
-import listOfDecks from './fakeData';
+import { getBackgroundColor, COLOR_TITLE, COLOR_DETAIL, DECKDETAILS_COLOR } from '../../utils/helpers';
 import { LinearGradient } from 'expo';
 
-const DeckPage = (props) => {
-	const deck = listOfDecks['Gotham'];
-
+const DeckPage = ({ deck }) => {
 	return (
 		<LinearGradient colors={getBackgroundColor(DECKDETAILS_COLOR)} style={{ flex: 1 }}>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
 				<Title>{deck.title}</Title>
 				<DetailsContent>
 					<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
-					<Details>{deck.numOfCards} cards</Details>
+					{/* <Details>{deck.numOfCards} cards</Details> */}
+					<Details>2 cards</Details>
 				</DetailsContent>
 			</View>
-			<TouchableOpacity style={{ flex: 2, alignItems: 'center' }}>
+			<BtnStartQuiz>
 				<AntDesign name="playcircleo" size={70} />
 				<Text>Start Quiz</Text>
-			</TouchableOpacity>
-			<TouchableOpacity
-				style={{
-					flex: 1,
-					justifyContent: 'center',
-					alignItems: 'center',
-					fontSize: 10,
-					borderColor: 'green'
-				}}
-			>
-				<Foundation name="page-add" size={30} color={'#464646'} />
-				<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
-			</TouchableOpacity>
+			</BtnStartQuiz>
+			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+				<BtnAddCard>
+					<Foundation name="page-add" size={30} color={'#464646'} />
+					<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
+				</BtnAddCard>
+				<BtnAddCard>
+					<Foundation name="page-add" size={30} color={'#464646'} />
+					<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
+				</BtnAddCard>
+			</View>
 		</LinearGradient>
 	);
 };
+
+const mapStateToProps = (store, { navigation }) => {
+	const deck = store[navigation.state.params.deckId];
+	return { deck };
+};
+
+export default connect(mapStateToProps)(DeckPage);
+
+/**
+ * Styled Components
+ */
 
 const Texts = styled.Text`
 	color: ${COLOR_TITLE};
@@ -61,4 +67,14 @@ const Details = styled(Texts)`
 	color: ${COLOR_DETAIL};
 `;
 
-export default DeckPage;
+const BtnStartQuiz = styled.TouchableOpacity`
+	flex: 2;
+	align-items: center;
+`;
+
+const BtnAddCard = styled.TouchableOpacity`
+	flex: 1;
+	justify-content: center;
+	align-items: center;
+	font-size: 10;
+`;

@@ -5,6 +5,7 @@ export const REMOVE_DECK = 'REMOVE_DECK';
 export const REMOVE_CARD = 'REMOVE_CARD';
 
 export function receiveDecks(decks) {
+	console.log('action receiving: ', decks);
 	return {
 		type: RECEIVE_DECKS,
 		decks

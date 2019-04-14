@@ -1,30 +1,40 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Helpers
-import { formatDate, getRandomBg, COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
-//Components
-import listOfDecks from './fakeData';
+import { COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
 
-const Deck = ({ id }) => {
-	const deck = listOfDecks[id];
+const Deck = ({ id, deck, navigation }) => {
+	const goToDeckPage = () => {
+		navigation.navigate('DeckPage', { deckId: id, name: deck.title });
+	};
+
 	return (
-		<DeckBox>
+		<DeckBox onPress={goToDeckPage}>
 			<Title>{deck.title}</Title>
 			<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 				<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
-				<Details>{deck.numOfCards} cards</Details>
+				<Details>2 cards</Details>
 			</View>
 		</DeckBox>
 	);
 };
 
+const mapStateToProps = (store, { id }) => {
+	const deck = store[id];
+	console.log('store em deck: ', deck);
+	return { deck };
+};
+
+export default connect(mapStateToProps)(Deck);
+
 /**
  * Styled Components
  */
 
-const DeckBox = styled.View`
+const DeckBox = styled.TouchableOpacity`
 	padding-bottom: 10px;
 	margin: 5px 10px;
 	align-items: center;
@@ -44,8 +54,3 @@ const Details = styled.Text`
 	color: ${COLOR_DETAIL};
 	margin-left: 5px;
 `;
-
-const Bold = ({ children }) => <Text style={{ fontWeight: 'bold' }}>{children}</Text>;
-const Italic = ({ children }) => <Text style={{ fontStyle: 'italic' }}>{children}</Text>;
-
-export default Deck;

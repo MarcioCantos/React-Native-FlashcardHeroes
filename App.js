@@ -1,8 +1,11 @@
 import React from 'react';
-import { View } from 'react-native';
-import { createStore } from 'redux';
+import { View, StatusBar } from 'react-native';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { Constants } from 'expo';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './src/reducers';
+import logger from './src/middlewares/logger';
 //Components
 import DecksList from './src/compoments/Decks';
 import DeckNew from './src/compoments/Decks/DeckNew';
@@ -10,12 +13,42 @@ import DeckPage from './src/compoments/Decks/DeckPage';
 import CardPage from './src/compoments/Cards/CardPage';
 import CardNew from './src/compoments/Cards/CardNew';
 
+function MyStatusBar({ backgroundColor, ...props }) {
+	return (
+		<View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+			<StatusBar translucent backgroundColor={backgroundColor} {...props} />
+		</View>
+	);
+}
+
+const StackNavigator = createStackNavigator({
+	Home: {
+		screen: DecksList,
+		navigationOptions: {
+			header: null
+		}
+	},
+	DeckPage: {
+		screen: DeckPage,
+		navigationOptions: ({ navigation }) => ({
+			title: `${navigation.state.params.name}`,
+			headerTintColor: '#ffffff',
+			headerStyle: {
+				backgroundColor: '#333'
+			}
+		})
+	}
+});
+
+const Stack = createAppContainer(StackNavigator);
+
 export default class App extends React.Component {
 	render() {
 		return (
-			<Provider store={createStore(reducer)}>
+			<Provider store={createStore(reducer, applyMiddleware(logger))}>
 				<View style={{ flex: 1 }}>
-					<DeckNew />
+					<MyStatusBar backgroundColor={'#333333'} barStyle="light-content" />
+					<Stack />
 				</View>
 			</Provider>
 		);

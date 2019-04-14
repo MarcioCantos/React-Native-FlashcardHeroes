@@ -11,17 +11,19 @@ import { addDeck } from '../../actions';
 class DeckNew extends Component {
 	state = {
 		id: '',
-		title: ''
+		title: '',
+		numOfCards: 0
 	};
 
 	handleInputChange = (input) => {
+		const id = input.replace(/\s+/g, '');
 		this.setState(() => ({
-			id: input.trim(),
+			id,
 			title: input
 		}));
 	};
 
-	submit() {
+	submit = () => {
 		const key = this.state.id;
 		const entry = this.state;
 
@@ -32,7 +34,7 @@ class DeckNew extends Component {
 		);
 
 		submitDeckEntry({ key, entry });
-	}
+	};
 
 	render() {
 		return (
@@ -58,6 +60,20 @@ class DeckNew extends Component {
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	console.log('state: ', state);
+
+	return {
+		state
+	};
+}
+
+export default connect(mapStateToProps)(DeckNew);
+
+/**
+ * Styled Components
+ */
 
 const Question = styled.Text`
 	justify-content: center;
@@ -103,13 +119,3 @@ const styles = StyleSheet.create({
 		width: 100
 	}
 });
-
-function mapStateToProps(state) {
-	console.log('state: ', state);
-
-	return {
-		state
-	};
-}
-
-export default connect(mapStateToProps)(DeckNew);

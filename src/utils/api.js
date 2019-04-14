@@ -1,6 +1,10 @@
 import { AsyncStorage } from 'react-native';
 
-export const FLASHCARD_STORAGE_KEY = '@FlashcardHeroes:flashcard';
+const FLASHCARD_STORAGE_KEY = '@FlashcardHeroes:flashcard';
+
+export function fetchDeckResults() {
+	return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => JSON.parse(results));
+}
 
 export function submitDeckEntry({ key, entry }) {
 	return AsyncStorage.mergeItem(
