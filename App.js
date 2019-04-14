@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StatusBar } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, DrawerNavigator } from 'react-navigation';
+import { FontAwesome } from '@expo/vector-icons';
 import { Constants } from 'expo';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
@@ -20,6 +21,23 @@ function MyStatusBar({ backgroundColor, ...props }) {
 		</View>
 	);
 }
+
+const Drawer = DrawerNavigator({
+	Home: {
+		screen: DecksList,
+		navigationOptions: {
+			drawerLabel: 'Home',
+			drawerIcon: () => <FontAwesome name="home" size={20} color="gray" />
+		}
+	},
+	DeckNew: {
+		screen: DeckNew,
+		navigationOptions: {
+			drawerLabel: 'New Deck',
+			drawerIcon: () => <FontAwesome name="plus" size={20} color="gray" />
+		}
+	}
+});
 
 const StackNavigator = createStackNavigator({
 	Home: {
@@ -48,6 +66,7 @@ export default class App extends React.Component {
 			<Provider store={createStore(reducer, applyMiddleware(logger))}>
 				<View style={{ flex: 1 }}>
 					<MyStatusBar backgroundColor={'#333333'} barStyle="light-content" />
+					<Drawer />
 					<Stack />
 				</View>
 			</Provider>

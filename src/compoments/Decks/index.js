@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { receiveDecks } from '../../actions';
 import { LinearGradient, AppLoading } from 'expo';
-import { FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { TouchableOpacity, FlatList, Platform } from 'react-native';
 import { fetchDeckResults } from '../../utils/api';
 import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
 import Deck from './Deck';
-
-import listOfDecks from './fakeData';
 
 class DecksList extends Component {
 	state = {
@@ -27,7 +26,7 @@ class DecksList extends Component {
 
 	render() {
 		const { ready } = this.state;
-		const { decks } = this.props;
+		const { decks, navigation } = this.props;
 		if (ready === false) {
 			return <AppLoading />;
 		}
@@ -38,7 +37,13 @@ class DecksList extends Component {
 				start={[ 0, 0 ]}
 				end={[ 0, 1 ]}
 			>
-				{console.log('decks carregando', decks)}
+				<TouchableOpacity onPress={() => navigation.navigate('DrawerOpen')}>
+					{Platform.OS === 'ios' ? (
+						<Ionicons name="ios-menu" size={20} color={'#f1f1f1'} />
+					) : (
+						<Ionicons name="md-menu" size={20} color={'#f1f1f1'} />
+					)}
+				</TouchableOpacity>
 				<FlatList data={Object.values(decks)} renderItem={this.renderItem} keyExtractor={(item) => item.id} />
 			</LinearGradient>
 		);

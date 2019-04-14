@@ -1,13 +1,40 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 import { MaterialCommunityIcons, AntDesign, Foundation } from '@expo/vector-icons';
 //Helpers
 import { getBackgroundColor, COLOR_TITLE, COLOR_DETAIL, DECKDETAILS_COLOR } from '../../utils/helpers';
+import { removeDeckEntry } from '../../utils/api';
+import { removeDeck } from '../../actions';
 import { LinearGradient } from 'expo';
 
-const DeckPage = ({ deck }) => {
+const DeckPage = ({ deck, remove, goBack }) => {
+	const deleteDeck = () => {
+		remove();
+		goBack();
+		removeDeckEntry(deck.id);
+	};
+
+	const handleDeleteClick = () => {
+		Alert.alert(
+			`DELETE ${deck.title}`,
+			'Would you like to delete this deck?',
+			[
+				{
+					text: 'cancel',
+					style: 'cancel'
+				},
+				{ text: 'DELETE', onPress: () => deleteDeck() }
+			],
+			{ cancelable: true }
+		);
+	};
+
+	shouldComponentUpdate = (nextProps) => {
+		return nextProps.deck !== null;
+	};
+
 	return (
 		<LinearGradient colors={getBackgroundColor(DECKDETAILS_COLOR)} style={{ flex: 1 }}>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
@@ -27,10 +54,10 @@ const DeckPage = ({ deck }) => {
 					<Foundation name="page-add" size={30} color={'#464646'} />
 					<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
 				</BtnAddCard>
-				<BtnAddCard>
-					<Foundation name="page-add" size={30} color={'#464646'} />
-					<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
-				</BtnAddCard>
+				<BtnRemoveDeck onPress={handleDeleteClick}>
+					<AntDesign name="delete" size={20} color={'brown'} />
+					<Text style={{ fontSize: 10, color: 'brown' }}>Delete Deck</Text>
+				</BtnRemoveDeck>
 			</View>
 		</LinearGradient>
 	);
@@ -41,7 +68,16 @@ const mapStateToProps = (store, { navigation }) => {
 	return { deck };
 };
 
-export default connect(mapStateToProps)(DeckPage);
+const mapDispatchToProps = (dispatch, { navigation }) => {
+	const { deckId } = navigation.state.params;
+
+	return {
+		remove: () => dispatch(removeDeck(deckId)),
+		goBack: () => navigation.goBack()
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeckPage);
 
 /**
  * Styled Components
@@ -76,5 +112,8 @@ const BtnAddCard = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
 	align-items: center;
-	font-size: 10;
+`;
+
+const BtnRemoveDeck = styled(BtnAddCard)`
+	color: red;
 `;

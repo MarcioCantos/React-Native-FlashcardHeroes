@@ -4,7 +4,7 @@ import { View, Text, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Helpers
-import { COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
+import { goToDeckPage, COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
 
 const Deck = ({ id, deck, navigation }) => {
 	const goToDeckPage = () => {

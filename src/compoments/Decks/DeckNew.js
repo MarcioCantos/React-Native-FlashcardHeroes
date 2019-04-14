@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
-import { SubmitBtn } from '../shared/SubmitBtn';
-import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
 import { submitDeckEntry } from '../../utils/api';
+import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
+import { SubmitBtn } from '../shared/SubmitBtn';
 import { connect } from 'react-redux';
 import { addDeck } from '../../actions';
 
@@ -32,6 +32,8 @@ class DeckNew extends Component {
 				[key]: entry
 			})
 		);
+
+		this.props.navigation.goBack();
 
 		submitDeckEntry({ key, entry });
 	};
