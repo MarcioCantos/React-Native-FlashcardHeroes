@@ -3,21 +3,20 @@ import styled from 'styled-components/native';
 import { View } from 'react-native';
 import { LinearGradient } from 'expo';
 
-const ProgressBar = ({ progress }) => {
+const ProgressBar = ({ progress, total, current }) => {
 	return (
 		<ProgressBarContainer>
 			<View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
 				<Bar style={{ flex: 1 }}>
 					<Fill progress={progress} />
 				</Bar>
-				<NumQuestions>1/2</NumQuestions>
+				<NumQuestions>{`${current}/${total}`}</NumQuestions>
 			</View>
 		</ProgressBarContainer>
 	);
 };
 
 const ProgressBarContainer = styled.View`
-	flex: 1;
 	flex-direction: row;
 	justify-content: center;
 	align-items: flex-end;

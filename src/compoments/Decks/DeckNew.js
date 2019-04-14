@@ -3,38 +3,58 @@ import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-n
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { submitDeckEntry } from '../../utils/api';
-import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, red, DECKPAGE_COLOR } from '../../utils/helpers';
 import { SubmitBtn } from '../shared/SubmitBtn';
 import { connect } from 'react-redux';
 import { addDeck } from '../../actions';
 
 class DeckNew extends Component {
 	state = {
-		id: '',
-		title: '',
-		numOfCards: 0
+		deck: {
+			id: '',
+			title: '',
+			numOfCards: 0,
+			questions: []
+		},
+		msg: ''
 	};
 
 	handleInputChange = (input) => {
 		const id = input.replace(/\s+/g, '');
-		this.setState(() => ({
-			id,
-			title: input
+		this.setState((state) => ({
+			...state,
+			deck: {
+				...state.deck,
+				id,
+				title: input
+			},
+			msg: ''
 		}));
 	};
 
 	submit = () => {
-		const key = this.state.id;
-		const entry = this.state;
+		const key = this.state.deck.id;
+		const entry = this.state.deck;
+
+		if (this.state.deck.title === '') {
+			return this.setState(() => ({
+				msg: 'You must provide a valid title to your deck.'
+			}));
+		}
+
+		//verify if Deck already exists in Store
+		if (typeof this.props.decks[key] !== 'undefined') {
+			return this.setState(() => ({
+				msg: 'This title is in use. Please choose another.'
+			}));
+		}
 
 		this.props.dispatch(
 			addDeck({
 				[key]: entry
 			})
 		);
-
 		this.props.navigation.goBack();
-
 		submitDeckEntry({ key, entry });
 	};
 
@@ -44,13 +64,14 @@ class DeckNew extends Component {
 				<KeyboardAvoidingView behavior="padding" style={styles.container}>
 					<View style={styles.blcForm}>
 						<Question>Get a nice title!</Question>
-						<InputContainer style={{ marginTop: 150 }}>
+						<InputContainer>
 							<Input
-								value={this.state.title}
+								value={this.state.deck.title}
 								onChangeText={this.handleInputChange}
 								placeholder={'My wonderful deck title is...'}
 							/>
 						</InputContainer>
+						<MsgError>{this.state.msg}</MsgError>
 					</View>
 					<View style={{ flex: 1 }}>
 						<SubmitBtn style={styles.btnSubmit} onPress={this.submit}>
@@ -64,10 +85,8 @@ class DeckNew extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log('state: ', state);
-
 	return {
-		state
+		decks: state
 	};
 }
 
@@ -81,21 +100,27 @@ const Question = styled.Text`
 	justify-content: center;
 	align-content: center;
 	text-align: center;
-	font-size: 24px;
+	font-size: 24;
 	color: white;
 	font-weight: bold;
 `;
 
 const Input = styled.TextInput`
-	font-size: 21px;
+	font-size: 21;
 	color: #ffffff;
 	padding: 5px 10px;
-	width: 300px;
+	width: 300;
 `;
 
 const InputContainer = styled.View`
+	margin-top: 150;
 	border-bottom-color: #ccc;
 	border-bottom-width: 1px;
+`;
+
+const MsgError = styled.Text`
+	color: ${red};
+	margin-right: 10;
 `;
 
 const styles = StyleSheet.create({

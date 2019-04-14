@@ -3,11 +3,11 @@ import { View, StyleSheet } from 'react-native';
 import { SubmitBtn } from '../../shared/SubmitBtn';
 import { Face, QuestionTxt } from './styles';
 
-const FaceCard = ({ flip }) => {
+const FaceCard = ({ flip, card }) => {
 	return (
 		<Face>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
-				<QuestionTxt>Pergunta da carta.</QuestionTxt>
+				<QuestionTxt>{card}</QuestionTxt>
 			</View>
 			<View style={{ flex: 1, alignItems: 'center' }}>
 				<SubmitBtn onPress={flip} style={styles.btnViewAnswer} textColor={'#fff'}>

@@ -1,20 +1,30 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { View, Text, Alert } from 'react-native';
 import { MaterialCommunityIcons, AntDesign, Foundation } from '@expo/vector-icons';
 //Helpers
-import { getBackgroundColor, COLOR_TITLE, COLOR_DETAIL, DECKDETAILS_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, red, COLOR_TITLE, COLOR_DETAIL, DECKDETAILS_COLOR } from '../../utils/helpers';
 import { removeDeckEntry } from '../../utils/api';
 import { removeDeck } from '../../actions';
 import { LinearGradient } from 'expo';
 
 class DeckPage extends Component {
-	deleteDeck = () => {
+	shouldComponentUpdate(nextProps) {
+		return typeof nextProps.deck !== 'undefined';
+	}
+
+	startQuiz = () => {
+		const { deck, navigation } = this.props;
+		navigation.navigate('Cards', { questions: deck.questions, name: deck.title });
+	};
+
+	deleteDeck = (id) => {
 		const { remove, goBack } = this.props;
+		console.log('delete deck: ', this.props);
 		remove();
 		goBack();
-		removeDeckEntry(this.props.deck.id);
+		removeDeckEntry(id);
 	};
 
 	handleDeleteClick = () => {
@@ -26,15 +36,16 @@ class DeckPage extends Component {
 					text: 'cancel',
 					style: 'cancel'
 				},
-				{ text: 'DELETE', onPress: () => this.deleteDeck() }
+				{ text: 'DELETE', onPress: () => this.deleteDeck(this.props.deck.id) }
 			],
 			{ cancelable: true }
 		);
 	};
 
-	shouldComponentUpdate(nextProps) {
-		return nextProps.deck !== null || typeof nextProps.deck.title === 'undefined';
-	}
+	addNewCard = () => {
+		const { deck, navigation } = this.props;
+		navigation.navigate('CardNew', { deckId: deck.id });
+	};
 
 	render() {
 		const { deck } = this.props;
@@ -50,18 +61,18 @@ class DeckPage extends Component {
 						</Details>
 					</DetailsContent>
 				</View>
-				<BtnStartQuiz>
+				<BtnStartQuiz onPress={this.startQuiz}>
 					<AntDesign name="playcircleo" size={70} />
 					<Text>Start Quiz</Text>
 				</BtnStartQuiz>
 				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-					<BtnAddCard>
+					<BtnAddCard onPress={this.addNewCard}>
 						<Foundation name="page-add" size={30} color={'#464646'} />
 						<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
 					</BtnAddCard>
 					<BtnRemoveDeck onPress={this.handleDeleteClick}>
-						<AntDesign name="delete" size={20} color={'brown'} />
-						<Text style={{ fontSize: 10, color: 'brown' }}>Delete Deck</Text>
+						<AntDesign name="delete" size={20} color={red} />
+						<Text style={{ fontSize: 10, color: red }}>Delete Deck</Text>
 					</BtnRemoveDeck>
 				</View>
 			</LinearGradient>

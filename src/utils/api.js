@@ -27,10 +27,8 @@ export function submitCardEntry({ key, entry }) {
 		const data = JSON.parse(results);
 		data[key] = {
 			...data[key],
-			question: {
-				...data[key].question,
-				entry
-			}
+			numOfCards: data[key].numOfCards + 1,
+			questions: data[key].questions.concat(entry)
 		};
 		AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(data));
 	});

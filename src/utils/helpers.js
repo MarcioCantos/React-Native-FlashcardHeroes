@@ -23,6 +23,7 @@ export const DECKPAGE_COLOR = 'deckPage';
 export const DECKDETAILS_COLOR = 'deckDetails';
 export const CARDPAGE_COLOR = 'cardPage';
 export const QUIZPAGE_COLOR = 'quizPage';
+export const red = 'brown';
 
 const bgs = {
 	[DECKPAGE_COLOR]: [ '#373B44', '#4286f4' ],

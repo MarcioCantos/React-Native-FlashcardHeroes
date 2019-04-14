@@ -1,39 +1,61 @@
 import React, { Component } from 'react';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { connect } from 'react-redux';
+import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
+import { submitCardEntry } from '../../utils/api';
 import { getBackgroundColor, CARDPAGE_COLOR } from '../../utils/helpers';
+import { addCard } from '../../actions';
 import { SubmitBtn } from '../shared/SubmitBtn';
 
-export default class CardNew extends Component {
+class CardNew extends Component {
 	state = {
-		question: '',
-		answer: ''
+		card: {
+			question: '',
+			answer: ''
+		}
 	};
 
 	handleInputChange = (input, name) => {
-		this.setState(() => ({
-			[name]: input
+		this.setState((state) => ({
+			...state,
+			card: {
+				...state.card,
+				[name]: input
+			}
 		}));
 	};
 
-	submit() {}
+	submit = () => {
+		const { deckId } = this.props;
+		const { card } = this.state;
+
+		//add into redux store
+		this.props.dispatch(addCard(deckId, card));
+		this.props.navigation.goBack();
+
+		submitCardEntry({
+			key: deckId,
+			entry: card
+		});
+	};
 
 	render() {
+		const { card } = this.state;
 		return (
 			<LinearGradient colors={getBackgroundColor(CARDPAGE_COLOR)} style={{ flex: 1 }}>
 				<KeyboardAvoidingView behavior="padding" style={styles.container}>
 					<View style={styles.blcForm}>
 						<InputContainer>
 							<Input
-								value={this.state.question}
+								value={card.question}
 								onChangeText={(e) => this.handleInputChange(e, 'question')}
 								placeholder={'What question would you like to ask?'}
 							/>
 						</InputContainer>
 						<InputContainer style={{ marginTop: 20 }}>
 							<Input
-								value={this.state.answer}
+								value={card.answer}
 								onChangeText={(e) => this.handleInputChange(e, 'answer')}
 								placeholder={'And the answer is...'}
 							/>
@@ -49,6 +71,22 @@ export default class CardNew extends Component {
 		);
 	}
 }
+
+function mapStateToProps(store, { navigation }) {
+	const { deckId } = navigation.state.params;
+	return {
+		deckId
+	};
+}
+
+// const mapDispatchToProps = (dispatch, { navigation }) => {
+// 	return {
+// 		addCard: () => dispatch(addCard),
+// 		goBack: () => navigation.goBack()
+// 	};
+// };
+
+export default connect(mapStateToProps)(CardNew);
 
 const Input = styled.TextInput`
 	font-size: 16px;

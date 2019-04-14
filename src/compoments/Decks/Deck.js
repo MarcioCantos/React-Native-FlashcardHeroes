@@ -28,7 +28,6 @@ const Deck = ({ id, deck, navigation }) => {
 
 const mapStateToProps = (store, { id }) => {
 	const deck = store[id];
-	console.log('store em deck: ', deck);
 	return { deck };
 };
 

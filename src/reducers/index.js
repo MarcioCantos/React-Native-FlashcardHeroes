@@ -12,7 +12,7 @@ function decks(state = {}, action) {
 			};
 
 		case REMOVE_DECK:
-			const { [action.id]: del, ...newDeckState } = action;
+			const { [action.id]: del, ...newDeckState } = state;
 			return {
 				...newDeckState
 			};
@@ -23,10 +23,8 @@ function decks(state = {}, action) {
 				...state,
 				[deck]: {
 					...state[deck],
-					question: {
-						...state[deck].question,
-						card
-					}
+					numOfCards: state[deck].numOfCards + 1,
+					questions: state[deck].questions.concat(card)
 				}
 			};
 

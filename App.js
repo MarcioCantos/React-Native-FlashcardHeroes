@@ -37,7 +37,7 @@ const Stack = StackNavigator({
 		screen: DeckNew,
 		navigationOptions: optionsNavHeader('New Deck')
 	},
-	CardPage: {
+	Cards: {
 		screen: CardPage,
 		navigationOptions: optionsNavHeader('Quiz')
 	},

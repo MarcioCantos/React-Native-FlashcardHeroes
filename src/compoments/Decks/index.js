@@ -16,7 +16,10 @@ class DecksList extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		fetchDeckResults()
-			.then((decks) => dispatch(receiveDecks(decks)))
+			.then((decks) => {
+				console.log('receiving data da api: ', decks);
+				dispatch(receiveDecks(decks));
+			})
 			.then(() => this.setState(() => ({ ready: true })));
 	}
 

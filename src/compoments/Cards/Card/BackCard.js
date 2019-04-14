@@ -3,19 +3,19 @@ import { View, StyleSheet } from 'react-native';
 import { SubmitBtn } from '../../shared/SubmitBtn';
 import { Back, AnswerTxt } from './styles';
 
-const BackCard = ({ answer }) => {
+const BackCard = ({ handleAnswer, card }) => {
 	handleCorrectAnswer = () => {
-		return answer(true);
+		return handleAnswer(true);
 	};
 
 	handleWrongAnswer = () => {
-		return answer(false);
+		return handleAnswer(false);
 	};
 
 	return (
 		<Back>
 			<View style={{ flex: 2, justifyContent: 'center' }}>
-				<AnswerTxt>Resposta da pergunta</AnswerTxt>
+				<AnswerTxt>{card}</AnswerTxt>
 			</View>
 			<View style={styles.btnContent}>
 				<SubmitBtn onPress={handleCorrectAnswer} textColor={'#444'} style={styles.btnCorrect}>
