@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { View, Text, Alert } from 'react-native';
@@ -9,59 +9,65 @@ import { removeDeckEntry } from '../../utils/api';
 import { removeDeck } from '../../actions';
 import { LinearGradient } from 'expo';
 
-const DeckPage = ({ deck, remove, goBack }) => {
-	const deleteDeck = () => {
+class DeckPage extends Component {
+	deleteDeck = () => {
+		const { remove, goBack } = this.props;
 		remove();
 		goBack();
-		removeDeckEntry(deck.id);
+		removeDeckEntry(this.props.deck.id);
 	};
 
-	const handleDeleteClick = () => {
+	handleDeleteClick = () => {
 		Alert.alert(
-			`DELETE ${deck.title}`,
+			`DELETE ${this.props.deck.title}`,
 			'Would you like to delete this deck?',
 			[
 				{
 					text: 'cancel',
 					style: 'cancel'
 				},
-				{ text: 'DELETE', onPress: () => deleteDeck() }
+				{ text: 'DELETE', onPress: () => this.deleteDeck() }
 			],
 			{ cancelable: true }
 		);
 	};
 
-	shouldComponentUpdate = (nextProps) => {
-		return nextProps.deck !== null;
-	};
+	shouldComponentUpdate(nextProps) {
+		return nextProps.deck !== null || typeof nextProps.deck.title === 'undefined';
+	}
 
-	return (
-		<LinearGradient colors={getBackgroundColor(DECKDETAILS_COLOR)} style={{ flex: 1 }}>
-			<View style={{ flex: 2, justifyContent: 'center' }}>
-				<Title>{deck.title}</Title>
-				<DetailsContent>
-					<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
-					{/* <Details>{deck.numOfCards} cards</Details> */}
-					<Details>2 cards</Details>
-				</DetailsContent>
-			</View>
-			<BtnStartQuiz>
-				<AntDesign name="playcircleo" size={70} />
-				<Text>Start Quiz</Text>
-			</BtnStartQuiz>
-			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
-				<BtnAddCard>
-					<Foundation name="page-add" size={30} color={'#464646'} />
-					<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
-				</BtnAddCard>
-				<BtnRemoveDeck onPress={handleDeleteClick}>
-					<AntDesign name="delete" size={20} color={'brown'} />
-					<Text style={{ fontSize: 10, color: 'brown' }}>Delete Deck</Text>
-				</BtnRemoveDeck>
-			</View>
-		</LinearGradient>
-	);
-};
+	render() {
+		const { deck } = this.props;
+		const { title, numOfCards } = deck;
+		return (
+			<LinearGradient colors={getBackgroundColor(DECKDETAILS_COLOR)} style={{ flex: 1 }}>
+				<View style={{ flex: 2, justifyContent: 'center' }}>
+					<Title>{title}</Title>
+					<DetailsContent>
+						<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
+						<Details>
+							{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
+						</Details>
+					</DetailsContent>
+				</View>
+				<BtnStartQuiz>
+					<AntDesign name="playcircleo" size={70} />
+					<Text>Start Quiz</Text>
+				</BtnStartQuiz>
+				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+					<BtnAddCard>
+						<Foundation name="page-add" size={30} color={'#464646'} />
+						<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
+					</BtnAddCard>
+					<BtnRemoveDeck onPress={this.handleDeleteClick}>
+						<AntDesign name="delete" size={20} color={'brown'} />
+						<Text style={{ fontSize: 10, color: 'brown' }}>Delete Deck</Text>
+					</BtnRemoveDeck>
+				</View>
+			</LinearGradient>
+		);
+	}
+}
 
 const mapStateToProps = (store, { navigation }) => {
 	const deck = store[navigation.state.params.deckId];

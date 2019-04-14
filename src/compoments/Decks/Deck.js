@@ -4,19 +4,23 @@ import { View, Text, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Helpers
-import { goToDeckPage, COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
+import { COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
 
 const Deck = ({ id, deck, navigation }) => {
 	const goToDeckPage = () => {
 		navigation.navigate('DeckPage', { deckId: id, name: deck.title });
 	};
 
+	const { title, numOfCards } = deck;
+
 	return (
 		<DeckBox onPress={goToDeckPage}>
-			<Title>{deck.title}</Title>
+			<Title>{title}</Title>
 			<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 				<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
-				<Details>2 cards</Details>
+				<Details>
+					{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
+				</Details>
 			</View>
 		</DeckBox>
 	);

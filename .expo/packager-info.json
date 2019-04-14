@@ -1,10 +1,10 @@
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 8989,
+  "packagerPort": null,
+  "packagerPid": null,
   "expoServerNgrokUrl": "https://g5-yjv.anonymous.flashcardheroes.exp.direct",
   "packagerNgrokUrl": "https://packager.g5-yjv.anonymous.flashcardheroes.exp.direct",
-  "ngrokPid": 9055,
+  "ngrokPid": 11025,
   "webpackServerPort": null
 }
