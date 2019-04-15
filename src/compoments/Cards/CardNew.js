@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { submitCardEntry } from '../../utils/api';
-import { getBackgroundColor, CARDPAGE_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, cardColor } from '../../utils/helpers';
 import { addCard } from '../../actions';
 import { SubmitBtn } from '../shared/SubmitBtn';
 
@@ -43,7 +44,7 @@ class CardNew extends Component {
 	render() {
 		const { card } = this.state;
 		return (
-			<LinearGradient colors={getBackgroundColor(CARDPAGE_COLOR)} style={{ flex: 1 }}>
+			<LinearGradient colors={getBackgroundColor(cardColor)} style={{ flex: 1 }}>
 				<KeyboardAvoidingView behavior="padding" style={styles.container}>
 					<View style={styles.blcForm}>
 						<InputContainer>
@@ -79,14 +80,20 @@ function mapStateToProps(store, { navigation }) {
 	};
 }
 
-// const mapDispatchToProps = (dispatch, { navigation }) => {
-// 	return {
-// 		addCard: () => dispatch(addCard),
-// 		goBack: () => navigation.goBack()
-// 	};
-// };
-
 export default connect(mapStateToProps)(CardNew);
+
+/**
+ * PropTypes
+ */
+CardNew.propTypes = {
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func
+	}).isRequired
+};
+
+/**
+ * Styled Components
+ */
 
 const Input = styled.TextInput`
 	font-size: 16px;

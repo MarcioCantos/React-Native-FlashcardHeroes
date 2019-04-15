@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { View, Text, Alert } from 'react-native';
 import { MaterialCommunityIcons, AntDesign, Foundation } from '@expo/vector-icons';
 //Helpers
-import { getBackgroundColor, red, COLOR_TITLE, COLOR_DETAIL, DECKDETAILS_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, red, darkGray, gray, deckDetailsColor } from '../../utils/helpers';
 import { removeDeckEntry } from '../../utils/api';
 import { removeDeck } from '../../actions';
 import { LinearGradient } from 'expo';
@@ -21,7 +22,7 @@ class DeckPage extends Component {
 
 	deleteDeck = (id) => {
 		const { remove, goBack } = this.props;
-		console.log('delete deck: ', this.props);
+
 		remove();
 		goBack();
 		removeDeckEntry(id);
@@ -51,20 +52,26 @@ class DeckPage extends Component {
 		const { deck } = this.props;
 		const { title, numOfCards } = deck;
 		return (
-			<LinearGradient colors={getBackgroundColor(DECKDETAILS_COLOR)} style={{ flex: 1 }}>
+			<LinearGradient colors={getBackgroundColor(deckDetailsColor)} style={{ flex: 1 }}>
 				<View style={{ flex: 2, justifyContent: 'center' }}>
 					<Title>{title}</Title>
 					<DetailsContent>
-						<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
+						<MaterialCommunityIcons name="cards" size={20} color={gray} />
 						<Details>
 							{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
 						</Details>
 					</DetailsContent>
 				</View>
-				<BtnStartQuiz onPress={this.startQuiz}>
-					<AntDesign name="playcircleo" size={70} />
-					<Text>Start Quiz</Text>
-				</BtnStartQuiz>
+				{numOfCards === 0 ? (
+					<TextEmpty onPress={this.addNewCard}>
+						<Text>This deck is still empty... Be the first to add a card!</Text>
+					</TextEmpty>
+				) : (
+					<BtnStartQuiz onPress={this.startQuiz}>
+						<AntDesign name="playcircleo" size={70} />
+						<Text>Start Quiz</Text>
+					</BtnStartQuiz>
+				)}
 				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
 					<BtnAddCard onPress={this.addNewCard}>
 						<Foundation name="page-add" size={30} color={'#464646'} />
@@ -97,11 +104,21 @@ const mapDispatchToProps = (dispatch, { navigation }) => {
 export default connect(mapStateToProps, mapDispatchToProps)(DeckPage);
 
 /**
+ * PropTypes
+ */
+DeckPage.propTypes = {
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func,
+		state: PropTypes.object
+	}).isRequired
+};
+
+/**
  * Styled Components
  */
 
 const Texts = styled.Text`
-	color: ${COLOR_TITLE};
+	color: ${darkGray};
 	text-align: center;
 `;
 
@@ -117,12 +134,16 @@ const DetailsContent = styled.View`
 const Details = styled(Texts)`
 	font-size: 18px;
 	margin-left: 10px;
-	color: ${COLOR_DETAIL};
+	color: ${gray};
 `;
 
 const BtnStartQuiz = styled.TouchableOpacity`
 	flex: 2;
 	align-items: center;
+`;
+const TextEmpty = styled(BtnStartQuiz)`
+	font-size: 18px;
+	color: brown;
 `;
 
 const BtnAddCard = styled.TouchableOpacity`

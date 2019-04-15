@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { SubmitBtn } from '../../shared/SubmitBtn';
 import { Back, AnswerTxt } from './styles';
@@ -50,3 +51,12 @@ const styles = StyleSheet.create({
 });
 
 export default BackCard;
+
+/**
+ * PropTypes
+ */
+
+BackCard.propTypes = {
+	card: PropTypes.string.isRequired,
+	flip: PropTypes.func.isRequired
+};

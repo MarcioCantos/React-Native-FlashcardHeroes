@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { receiveDecks } from '../../actions';
 import { LinearGradient, AppLoading } from 'expo';
 import { Feather } from '@expo/vector-icons';
 import { Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import { fetchDeckResults } from '../../utils/api';
-import { getBackgroundColor, DECKPAGE_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, deckColor } from '../../utils/helpers';
+import { receiveDecks } from '../../actions';
 import Deck from './Deck';
 
 class DecksList extends Component {
@@ -17,7 +18,6 @@ class DecksList extends Component {
 		const { dispatch } = this.props;
 		fetchDeckResults()
 			.then((decks) => {
-				console.log('receiving data da api: ', decks);
 				dispatch(receiveDecks(decks));
 			})
 			.then(() => this.setState(() => ({ ready: true })));
@@ -34,12 +34,7 @@ class DecksList extends Component {
 			return <AppLoading />;
 		}
 		return (
-			<LinearGradient
-				style={{ flex: 1 }}
-				colors={getBackgroundColor(DECKPAGE_COLOR)}
-				start={[ 0, 0 ]}
-				end={[ 0, 1 ]}
-			>
+			<LinearGradient style={{ flex: 1 }} colors={getBackgroundColor(deckColor)} start={[ 0, 0 ]} end={[ 0, 1 ]}>
 				<TouchableOpacity style={styles.btnAddNewDeck} onPress={() => navigation.navigate('DeckNew')}>
 					<Feather name="plus-square" size={20} color={'#f1f1f1'} />
 					<Text style={styles.txtAddNewDeck}>New Deck</Text>
@@ -55,6 +50,19 @@ const mapStateToProps = (store) => {
 };
 
 export default connect(mapStateToProps)(DecksList);
+
+/**
+ * PropTypes
+ */
+DecksList.propTypes = {
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func
+	}).isRequired
+};
+
+/**
+ * Styled Components
+ */
 
 const styles = StyleSheet.create({
 	btnAddNewDeck: {

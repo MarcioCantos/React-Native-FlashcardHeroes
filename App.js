@@ -11,7 +11,7 @@ import logger from './src/middlewares/logger';
 import DecksList from './src/compoments/Decks';
 import DeckNew from './src/compoments/Decks/DeckNew';
 import DeckPage from './src/compoments/Decks/DeckPage';
-import CardPage from './src/compoments/Cards/CardPage';
+import CardPage from './src/compoments/Cards';
 import CardNew from './src/compoments/Cards/CardNew';
 
 function MyStatusBar({ backgroundColor, ...props }) {
@@ -56,8 +56,6 @@ function optionsNavHeader(title) {
 		}
 	};
 }
-
-// const Stack = createAppContainer(StackNavigator);
 
 export default class App extends React.Component {
 	render() {

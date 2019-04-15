@@ -2,6 +2,9 @@ import { AsyncStorage } from 'react-native';
 
 const FLASHCARD_STORAGE_KEY = '@FlashcardHeroes:flashcard';
 
+/**
+ * DECK
+ */
 export function fetchDeckResults() {
 	return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => JSON.parse(results));
 }
@@ -22,6 +25,9 @@ export function removeDeckEntry(key) {
 	});
 }
 
+/**
+ * CARD
+ */
 export function submitCardEntry({ key, entry }) {
 	return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => {
 		const data = JSON.parse(results);
@@ -30,15 +36,6 @@ export function submitCardEntry({ key, entry }) {
 			numOfCards: data[key].numOfCards + 1,
 			questions: data[key].questions.concat(entry)
 		};
-		AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(data));
-	});
-}
-
-export function removeCardEntry({ key, keyChild }) {
-	return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY).then((results) => {
-		const data = JSON.parse(results);
-		data[key]['questions'][keyChild] = undefined;
-		delete data[key][keyChild];
 		AsyncStorage.setItem(FLASHCARD_STORAGE_KEY, JSON.stringify(data));
 	});
 }

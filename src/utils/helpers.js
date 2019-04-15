@@ -1,35 +1,17 @@
-// export function formatDate(timestamp) {
-// 	const d = new Date(timestamp);
-// 	// const time = d.toLocaleTimeString('en-US');
-// 	return d.toLocaleDateString('pt-BR');
-// }
-
-// export function formatDeck(title) {
-// 	return {
-// 		id: title.trim(),
-// 		title,
-// 		titleBg: getRandomBg(),
-// 		created: Date.now(),
-// 		timeRecord: '---',
-// 		timeLastest: '---',
-// 		numOfCards: 0
-// 	};
-// }
-
-export const COLOR_TITLE = '#464646';
-export const COLOR_DETAIL = '#646464';
-
-export const DECKPAGE_COLOR = 'deckPage';
-export const DECKDETAILS_COLOR = 'deckDetails';
-export const CARDPAGE_COLOR = 'cardPage';
-export const QUIZPAGE_COLOR = 'quizPage';
+export const darkGray = '#464646';
+export const gray = '#646464';
 export const red = 'brown';
 
+export const deckColor = 'deckPage';
+export const deckDetailsColor = 'deckDetails';
+export const cardColor = 'cardPage';
+export const quizColor = 'quizPage';
+
 const bgs = {
-	[DECKPAGE_COLOR]: [ '#373B44', '#4286f4' ],
-	[DECKDETAILS_COLOR]: [ '#ffffff', '#cccccc', '#999999' ],
-	[CARDPAGE_COLOR]: [ '#000000', '#333333' ],
-	[QUIZPAGE_COLOR]: [ '#ad5389', '#3c1053' ]
+	[deckColor]: [ '#373B44', '#4286f4' ],
+	[deckDetailsColor]: [ '#ffffff', '#cccccc', '#999999' ],
+	[cardColor]: [ '#000000', '#333333' ],
+	[quizColor]: [ '#ad5389', '#3c1053' ]
 };
 
 const randomKeyBg = () => {

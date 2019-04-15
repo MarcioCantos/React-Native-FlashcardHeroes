@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { SubmitBtn } from '../../shared/SubmitBtn';
 import { Face, QuestionTxt } from './styles';
@@ -28,3 +29,12 @@ const styles = StyleSheet.create({
 });
 
 export default FaceCard;
+
+/**
+ * PropTypes
+ */
+
+FaceCard.propTypes = {
+	card: PropTypes.string.isRequired,
+	flip: PropTypes.func.isRequired
+};

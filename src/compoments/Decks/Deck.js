@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, Text, Image } from 'react-native';
 import styled from 'styled-components/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 //Helpers
-import { COLOR_TITLE, COLOR_DETAIL } from '../../utils/helpers';
+import { darkGray, gray } from '../../utils/helpers';
 
 const Deck = ({ id, deck, navigation }) => {
 	const goToDeckPage = () => {
@@ -17,7 +18,7 @@ const Deck = ({ id, deck, navigation }) => {
 		<DeckBox onPress={goToDeckPage}>
 			<Title>{title}</Title>
 			<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-				<MaterialCommunityIcons name="cards" size={20} color={COLOR_DETAIL} />
+				<MaterialCommunityIcons name="cards" size={20} color={gray} />
 				<Details>
 					{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
 				</Details>
@@ -34,6 +35,16 @@ const mapStateToProps = (store, { id }) => {
 export default connect(mapStateToProps)(Deck);
 
 /**
+ * PropTypes
+ */
+Deck.propTypes = {
+	id: PropTypes.string.isRequired,
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func
+	})
+};
+
+/**
  * Styled Components
  */
 
@@ -48,12 +59,12 @@ const DeckBox = styled.TouchableOpacity`
 const Title = styled.Text`
 	font-size: 24px;
 	font-weight: bold;
-	color: ${COLOR_TITLE};
+	color: ${darkGray};
 	border-radius: 5px;
 `;
 
 const Details = styled.Text`
 	font-size: 18px;
-	color: ${COLOR_DETAIL};
+	color: ${gray};
 	margin-left: 5px;
 `;

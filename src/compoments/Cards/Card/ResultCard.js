@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, StyleSheet } from 'react-native';
 import { SubmitBtn } from '../../shared/SubmitBtn';
 import { Result, ResultTxt, ScoreTxt } from './styles';
 
-const ResultCard = ({ flip, total, corrects, restart, goBack }) => {
+const ResultCard = ({ total, corrects, restart, goBack }) => {
 	const finalScore = Math.round(corrects / total * 100);
 
 	const greatz = () => {
@@ -35,6 +36,22 @@ const ResultCard = ({ flip, total, corrects, restart, goBack }) => {
 	);
 };
 
+export default ResultCard;
+
+/**
+ * PropTypes
+ */
+ResultCard.propTypes = {
+	total: PropTypes.number.isRequired,
+	corrects: PropTypes.number.isRequired,
+	restart: PropTypes.func.isRequired,
+	goBack: PropTypes.func.isRequired
+};
+
+/**
+ * Styled Components
+ */
+
 const styles = StyleSheet.create({
 	btnPlayAgain: {
 		backgroundColor: '#ffffff',
@@ -50,5 +67,3 @@ const styles = StyleSheet.create({
 		width: 150
 	}
 });
-
-export default ResultCard;

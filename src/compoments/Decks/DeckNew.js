@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { submitDeckEntry } from '../../utils/api';
-import { getBackgroundColor, red, DECKPAGE_COLOR } from '../../utils/helpers';
+import { getBackgroundColor, red, deckColor } from '../../utils/helpers';
 import { SubmitBtn } from '../shared/SubmitBtn';
-import { connect } from 'react-redux';
 import { addDeck } from '../../actions';
 
 class DeckNew extends Component {
@@ -20,6 +21,7 @@ class DeckNew extends Component {
 	};
 
 	handleInputChange = (input) => {
+		//remove white space between words
 		const id = input.replace(/\s+/g, '');
 		this.setState((state) => ({
 			...state,
@@ -36,6 +38,7 @@ class DeckNew extends Component {
 		const key = this.state.deck.id;
 		const entry = this.state.deck;
 
+		//Verify empty title
 		if (this.state.deck.title === '') {
 			return this.setState(() => ({
 				msg: 'You must provide a valid title to your deck.'
@@ -55,12 +58,14 @@ class DeckNew extends Component {
 			})
 		);
 		this.props.navigation.goBack();
+
+		//Send the newest Deck to API (AsyncStorage)
 		submitDeckEntry({ key, entry });
 	};
 
 	render() {
 		return (
-			<LinearGradient colors={getBackgroundColor(DECKPAGE_COLOR)} style={{ flex: 1 }}>
+			<LinearGradient colors={getBackgroundColor(deckColor)} style={{ flex: 1 }}>
 				<KeyboardAvoidingView behavior="padding" style={styles.container}>
 					<View style={styles.blcForm}>
 						<Question>Get a nice title!</Question>
@@ -91,6 +96,15 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(DeckNew);
+
+/**
+ * PropTypes
+ */
+DeckNew.propTypes = {
+	navigation: PropTypes.shape({
+		navigate: PropTypes.func
+	}).isRequired
+};
 
 /**
  * Styled Components

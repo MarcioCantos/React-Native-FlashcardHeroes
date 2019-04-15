@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export function SubmitBtn({ onPress, textColor, textSize, ...props }) {
 	const styles = StyleSheet.create({
