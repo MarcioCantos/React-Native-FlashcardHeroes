@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-const FLASHCARD_STORAGE_KEY = '@FlashcardHeroes:flashcard';
+export const FLASHCARD_STORAGE_KEY = '@FlashcardHeroes:flashcard';
 
 /**
  * DECK

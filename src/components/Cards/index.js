@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components/native';
 import FlipCard from 'react-native-flip-card';
 import { LinearGradient } from 'expo';
-import { Text, Alert } from 'react-native';
+import { Text, StyleSheet, Alert } from 'react-native';
 import { getBackgroundColor, quizColor } from '../../utils/helpers';
 import ProgressBar from './ProgressBar';
 import BackCard from './Card/BackCard';
@@ -78,15 +78,12 @@ class CardPage extends Component {
 		const { question, answer } = questions[currentQuestion - 1];
 
 		return (
-			<LinearGradient
-				colors={getBackgroundColor(quizColor)}
-				style={{ flex: 1, alignItems: 'center', justifyContent: 'space-between' }}
-			>
+			<LinearGradient colors={getBackgroundColor(quizColor)} style={styles.container}>
 				<ContainerTitle>
 					<Title>{name}</Title>
 				</ContainerTitle>
 				<ProgressBar progress={progress} total={totalQuestions} current={currentQuestion} />
-				<Container style={{ flex: 4 }}>
+				<ContainerCard>
 					<FlipCard
 						flipHorizontal={true}
 						flipVertical={false}
@@ -110,7 +107,7 @@ class CardPage extends Component {
 						{/* Back face of the card */}
 						<BackCard handleAnswer={this.handleAnswer} card={answer} />
 					</FlipCard>
-				</Container>
+				</ContainerCard>
 				<Footer>
 					{progress < 100 && (
 						<BtnSair onPress={this.handleGiveUpClick}>
@@ -136,6 +133,17 @@ CardPage.propTypes = {
 };
 
 /**
+ * Stylesheet
+ */
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'space-between'
+	}
+});
+
+/**
  * Styled Components
  */
 
@@ -152,7 +160,8 @@ const Title = styled.Text`
 	text-align: center;
 `;
 
-const Container = styled.View`
+const ContainerCard = styled.View`
+	flex: 4;
 	justify-content: flex-start;
 	margin: 5px;
 	width: 80%;

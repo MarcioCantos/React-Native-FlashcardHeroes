@@ -6,28 +6,30 @@ export const REMOVE_DECK = 'REMOVE_DECK';
 export function receiveDecks(decks) {
 	return {
 		type: RECEIVE_DECKS,
-		decks
+		payload: decks
 	};
 }
 
 export function addDeck(deck) {
 	return {
 		type: ADD_DECK,
-		deck
+		payload: deck
 	};
 }
 
 export function removeDeck(id) {
 	return {
 		type: REMOVE_DECK,
-		id
+		payload: id
 	};
 }
 
 export function addCard(deck, card) {
 	return {
 		type: ADD_CARD,
-		card,
-		deck
+		payload: {
+			card,
+			deck
+		}
 	};
 }

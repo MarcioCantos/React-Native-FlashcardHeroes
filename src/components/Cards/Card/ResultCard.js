@@ -18,13 +18,13 @@ const ResultCard = ({ total, corrects, restart, goBack }) => {
 
 	return (
 		<Result>
-			<View style={{ flex: 2, justifyContent: 'center' }}>
+			<View style={styles.blcScore}>
 				<ResultTxt>{greatz()}</ResultTxt>
 				<ScoreTxt>
 					You scored {corrects} of {total}
 				</ScoreTxt>
 			</View>
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'space-around' }}>
+			<View style={styles.blcButtoms}>
 				<SubmitBtn onPress={restart} style={styles.btnPlayAgain} textSize={18}>
 					Play Again!
 				</SubmitBtn>
@@ -53,6 +53,15 @@ ResultCard.propTypes = {
  */
 
 const styles = StyleSheet.create({
+	blcScore: {
+		flex: 2,
+		justifyContent: 'center'
+	},
+	blcButtoms: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'space-around'
+	},
 	btnPlayAgain: {
 		backgroundColor: '#ffffff',
 		borderRadius: 5,

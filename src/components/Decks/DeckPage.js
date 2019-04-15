@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 import { View, Text, Alert } from 'react-native';
+import { LinearGradient } from 'expo';
 import { MaterialCommunityIcons, AntDesign, Foundation } from '@expo/vector-icons';
 //Helpers
 import { getBackgroundColor, red, darkGray, gray, deckDetailsColor } from '../../utils/helpers';
 import { removeDeckEntry } from '../../utils/api';
 import { removeDeck } from '../../actions';
-import { LinearGradient } from 'expo';
 
 class DeckPage extends Component {
 	shouldComponentUpdate(nextProps) {
@@ -51,10 +51,9 @@ class DeckPage extends Component {
 	render() {
 		const { deck } = this.props;
 		const { title, numOfCards } = deck;
-		console.log('props navigation in deck: ', this.props.navigation);
 		return (
 			<LinearGradient colors={getBackgroundColor(deckDetailsColor)} style={{ flex: 1 }}>
-				<View style={{ flex: 2, justifyContent: 'center' }}>
+				<BlcTitle>
 					<Title>{title}</Title>
 					<DetailsContent>
 						<MaterialCommunityIcons name="cards" size={20} color={gray} />
@@ -62,7 +61,7 @@ class DeckPage extends Component {
 							{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
 						</Details>
 					</DetailsContent>
-				</View>
+				</BlcTitle>
 				{numOfCards === 0 ? (
 					<TextEmpty onPress={this.addNewCard}>
 						<Text>This deck is still empty... Be the first to add a card!</Text>
@@ -73,16 +72,16 @@ class DeckPage extends Component {
 						<Text>Start Quiz</Text>
 					</BtnStartQuiz>
 				)}
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-around' }}>
+				<BlcButtoms>
 					<BtnAddCard onPress={this.addNewCard}>
 						<Foundation name="page-add" size={30} color={'#464646'} />
-						<Text style={{ fontSize: 12, color: '#464646' }}>Add Card</Text>
+						<TextAdd>Add Card</TextAdd>
 					</BtnAddCard>
 					<BtnRemoveDeck onPress={this.handleDeleteClick}>
 						<AntDesign name="delete" size={20} color={red} />
-						<Text style={{ fontSize: 10, color: red }}>Delete Deck</Text>
+						<TextDelete>Delete Deck</TextDelete>
 					</BtnRemoveDeck>
-				</View>
+				</BlcButtoms>
 			</LinearGradient>
 		);
 	}
@@ -118,6 +117,17 @@ DeckPage.propTypes = {
  * Styled Components
  */
 
+const BlcTitle = styled.View`
+	flex: 2;
+	justify-content: center;
+`;
+
+const BlcButtoms = styled.View`
+	flex: 1;
+	flex-direction: row;
+	justify-content: space-around;
+`;
+
 const Texts = styled.Text`
 	color: ${darkGray};
 	text-align: center;
@@ -151,6 +161,15 @@ const BtnAddCard = styled.TouchableOpacity`
 	flex: 1;
 	justify-content: center;
 	align-items: center;
+`;
+
+const TextAdd = styled.Text`
+	font-size: 10;
+	color: #464646;
+`;
+
+const TextDelete = styled(TextAdd)`
+	color: ${red};
 `;
 
 const BtnRemoveDeck = styled(BtnAddCard)`

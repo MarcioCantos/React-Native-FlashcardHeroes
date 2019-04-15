@@ -31,6 +31,8 @@ class CardNew extends PureComponent {
 		const { deckId } = this.props;
 		const { card } = this.state;
 
+		Keyboard.dismiss();
+
 		//add into redux store
 		this.props.dispatch(addCard(deckId, card));
 		this.props.navigation.goBack();

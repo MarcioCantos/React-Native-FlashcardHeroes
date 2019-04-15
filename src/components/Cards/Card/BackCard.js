@@ -15,7 +15,7 @@ const BackCard = ({ handleAnswer, card }) => {
 
 	return (
 		<Back>
-			<View style={{ flex: 2, justifyContent: 'center' }}>
+			<View style={styles.blcAnswer}>
 				<AnswerTxt>{card}</AnswerTxt>
 			</View>
 			<View style={styles.btnContent}>
@@ -30,7 +30,25 @@ const BackCard = ({ handleAnswer, card }) => {
 	);
 };
 
+export default BackCard;
+
+/**
+ * PropTypes
+ */
+
+BackCard.propTypes = {
+	card: PropTypes.string.isRequired
+};
+
+/**
+ * StylesSheet
+ */
+
 const styles = StyleSheet.create({
+	blcAnswer: {
+		flex: 2,
+		justifyContent: 'center'
+	},
 	btnContent: {
 		flex: 1,
 		justifyContent: 'space-around',
@@ -49,13 +67,3 @@ const styles = StyleSheet.create({
 		borderRadius: 5
 	}
 });
-
-export default BackCard;
-
-/**
- * PropTypes
- */
-
-BackCard.propTypes = {
-	card: PropTypes.string.isRequired
-};

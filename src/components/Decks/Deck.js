@@ -17,12 +17,12 @@ const Deck = ({ id, deck, navigation }) => {
 	return (
 		<DeckBox onPress={goToDeckPage}>
 			<Title>{title}</Title>
-			<View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+			<ContainerDetails>
 				<MaterialCommunityIcons name="cards" size={20} color={gray} />
 				<Details>
 					{numOfCards} {numOfCards > 1 ? 'cards' : 'card'}
 				</Details>
-			</View>
+			</ContainerDetails>
 		</DeckBox>
 	);
 };
@@ -61,6 +61,12 @@ const Title = styled.Text`
 	font-weight: bold;
 	color: ${darkGray};
 	border-radius: 5px;
+`;
+
+const ContainerDetails = styled.View`
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
 `;
 
 const Details = styled.Text`

@@ -58,6 +58,8 @@ class DeckNew extends PureComponent {
 			})
 		);
 
+		Keyboard.dismiss();
+
 		this.goToDeckPage(key, entry.title);
 
 		//Send the newest Deck to API (AsyncStorage)

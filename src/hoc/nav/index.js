@@ -1,10 +1,10 @@
 import { StackNavigator } from 'react-navigation';
 //Components
-import DecksList from '../compoments/Decks';
-import DeckNew from '../compoments/Decks/DeckNew';
-import DeckPage from '../compoments/Decks/DeckPage';
-import CardPage from '../compoments/Cards';
-import CardNew from '../compoments/Cards/CardNew';
+import DecksList from '../../components/Decks';
+import DeckNew from '../../components/Decks/DeckNew';
+import DeckPage from '../../components/Decks/DeckPage';
+import CardPage from '../../components/Cards';
+import CardNew from '../../components/Cards/CardNew';
 
 function optionsNavHeader(title) {
 	return {

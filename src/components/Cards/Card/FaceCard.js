@@ -7,10 +7,10 @@ import { Face, QuestionTxt } from './styles';
 const FaceCard = ({ flip, card }) => {
 	return (
 		<Face>
-			<View style={{ flex: 2, justifyContent: 'center' }}>
+			<View style={styles.blcQuestion}>
 				<QuestionTxt>{card}</QuestionTxt>
 			</View>
-			<View style={{ flex: 1, alignItems: 'center' }}>
+			<View style={styles.blcButtom}>
 				<SubmitBtn onPress={flip} style={styles.btnViewAnswer} textColor={'#fff'}>
 					Show Answer
 				</SubmitBtn>
@@ -18,15 +18,6 @@ const FaceCard = ({ flip, card }) => {
 		</Face>
 	);
 };
-
-const styles = StyleSheet.create({
-	btnViewAnswer: {
-		backgroundColor: '#464646',
-		borderRadius: 5,
-		padding: 10,
-		width: 150
-	}
-});
 
 export default FaceCard;
 
@@ -38,3 +29,24 @@ FaceCard.propTypes = {
 	card: PropTypes.string.isRequired,
 	flip: PropTypes.func.isRequired
 };
+
+/**
+ * StylesSheet
+ */
+
+const styles = StyleSheet.create({
+	blcQuestion: {
+		flex: 2,
+		justifyContent: 'center'
+	},
+	blcButtom: {
+		flex: 1,
+		alignItems: 'center'
+	},
+	btnViewAnswer: {
+		backgroundColor: '#464646',
+		borderRadius: 5,
+		padding: 10,
+		width: 150
+	}
+});

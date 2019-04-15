@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { View } from 'react-native';
-import { LinearGradient } from 'expo';
 
 const ProgressBar = ({ progress, total, current }) => {
 	return (
 		<ProgressBarContainer>
-			<View style={{ alignSelf: 'flex-end', flexDirection: 'row' }}>
+			<ContainerFlex>
 				<Bar style={{ flex: 1 }}>
 					<Fill progress={progress} />
 				</Bar>
 				<NumQuestions>{`${current}/${total}`}</NumQuestions>
-			</View>
+			</ContainerFlex>
 		</ProgressBarContainer>
 	);
 };
@@ -22,6 +20,11 @@ const ProgressBarContainer = styled.View`
 	align-items: flex-end;
 	width: 80%;
 	margin: 5px;
+`;
+
+const ContainerFlex = styled.View`
+	align-self: flex-end;
+	flex-direction: row;
 `;
 
 const NumQuestions = styled.Text`
@@ -44,7 +47,7 @@ const Fill = styled(Bar)`
     shadow-radius: 5px;
     shadow-color: white;
     shadow-offset: 0px 0px;
-    elevation: 2
+    elevation: 2;
     /* box-shadow: 3px 0px 3px 0px #FFFFFF; */
 `;
 
