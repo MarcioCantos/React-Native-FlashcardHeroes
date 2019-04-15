@@ -57,6 +57,5 @@ export default BackCard;
  */
 
 BackCard.propTypes = {
-	card: PropTypes.string.isRequired,
-	flip: PropTypes.func.isRequired
+	card: PropTypes.string.isRequired
 };

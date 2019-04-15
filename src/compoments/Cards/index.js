@@ -68,7 +68,7 @@ class CardPage extends Component {
 	};
 
 	goBack = () => {
-		this.props.navigation.navigate('Home');
+		this.props.navigation.goBack();
 	};
 
 	render() {

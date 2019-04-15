@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19001,
-  "packagerPid": 22451,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
+  "packagerPid": 4089,
+  "expoServerNgrokUrl": "https://3b-mza.anonymous.flashcardheroes.exp.direct",
+  "packagerNgrokUrl": "https://packager.3b-mza.anonymous.flashcardheroes.exp.direct",
+  "ngrokPid": 4199,
   "webpackServerPort": null
 }

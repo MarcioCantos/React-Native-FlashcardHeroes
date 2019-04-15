@@ -29,7 +29,7 @@ const ResultCard = ({ total, corrects, restart, goBack }) => {
 					Play Again!
 				</SubmitBtn>
 				<SubmitBtn onPress={goBack} style={styles.btnGoHome} textColor={'#999'} textSize={12}>
-					Back to home
+					Back to Deck Page
 				</SubmitBtn>
 			</View>
 		</Result>
