@@ -43,12 +43,6 @@ const Fill = styled(Bar)`
 	width: ${(props) => props.progress}%;
 	background-color: green;
     border: 0;
-    shadow-opacity: 0.75;
-    shadow-radius: 5px;
-    shadow-color: white;
-    shadow-offset: 0px 0px;
-    elevation: 2;
-    /* box-shadow: 3px 0px 3px 0px #FFFFFF; */
 `;
 
 export default ProgressBar;
