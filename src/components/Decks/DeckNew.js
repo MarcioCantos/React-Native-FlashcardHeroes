@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, TouchableWithoutFeedback, StyleSheet, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { submitDeckEntry } from '../../utils/api';
@@ -9,7 +9,7 @@ import { getBackgroundColor, red, deckColor } from '../../utils/helpers';
 import { SubmitBtn } from '../shared/SubmitBtn';
 import { addDeck } from '../../actions';
 
-class DeckNew extends Component {
+class DeckNew extends PureComponent {
 	state = {
 		deck: {
 			id: '',
@@ -57,34 +57,45 @@ class DeckNew extends Component {
 				[key]: entry
 			})
 		);
-		this.props.navigation.goBack();
+
+		this.goToDeckPage(key, entry.title);
 
 		//Send the newest Deck to API (AsyncStorage)
 		submitDeckEntry({ key, entry });
 	};
 
+	goToDeckPage = (deckId, name) => {
+		this.props.navigation.navigate('DeckPage', { deckId, name });
+	};
+
 	render() {
 		return (
-			<LinearGradient colors={getBackgroundColor(deckColor)} style={{ flex: 1 }}>
-				<KeyboardAvoidingView behavior="padding" style={styles.container}>
-					<View style={styles.blcForm}>
-						<Question>Get a nice title!</Question>
-						<InputContainer>
-							<Input
-								value={this.state.deck.title}
-								onChangeText={this.handleInputChange}
-								placeholder={'My wonderful deck title is...'}
-							/>
-						</InputContainer>
-						<MsgError>{this.state.msg}</MsgError>
-					</View>
-					<View style={{ flex: 1 }}>
-						<SubmitBtn style={styles.btnSubmit} onPress={this.submit}>
-							Create Deck
-						</SubmitBtn>
-					</View>
-				</KeyboardAvoidingView>
-			</LinearGradient>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<LinearGradient colors={getBackgroundColor(deckColor)} style={{ flex: 1 }}>
+					<KeyboardAvoidingView
+						behavior="padding"
+						style={styles.container}
+						onPress={() => Keyboard.dismiss()}
+					>
+						<View style={styles.blcForm}>
+							<Question>Get a nice title!</Question>
+							<InputContainer>
+								<Input
+									value={this.state.deck.title}
+									onChangeText={this.handleInputChange}
+									placeholder={'My wonderful deck title is...'}
+								/>
+							</InputContainer>
+							<MsgError>{this.state.msg}</MsgError>
+						</View>
+						<View style={{ flex: 1 }}>
+							<SubmitBtn style={styles.btnSubmit} onPress={this.submit}>
+								Create Deck
+							</SubmitBtn>
+						</View>
+					</KeyboardAvoidingView>
+				</LinearGradient>
+			</TouchableWithoutFeedback>
 		);
 	}
 }

@@ -51,6 +51,7 @@ class DeckPage extends Component {
 	render() {
 		const { deck } = this.props;
 		const { title, numOfCards } = deck;
+		console.log('props navigation in deck: ', this.props.navigation);
 		return (
 			<LinearGradient colors={getBackgroundColor(deckDetailsColor)} style={{ flex: 1 }}>
 				<View style={{ flex: 2, justifyContent: 'center' }}>

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import styled from 'styled-components/native';
 import { submitCardEntry } from '../../utils/api';
@@ -9,7 +9,7 @@ import { getBackgroundColor, cardColor } from '../../utils/helpers';
 import { addCard } from '../../actions';
 import { SubmitBtn } from '../shared/SubmitBtn';
 
-class CardNew extends Component {
+class CardNew extends PureComponent {
 	state = {
 		card: {
 			question: '',
@@ -44,31 +44,33 @@ class CardNew extends Component {
 	render() {
 		const { card } = this.state;
 		return (
-			<LinearGradient colors={getBackgroundColor(cardColor)} style={{ flex: 1 }}>
-				<KeyboardAvoidingView behavior="padding" style={styles.container}>
-					<View style={styles.blcForm}>
-						<InputContainer>
-							<Input
-								value={card.question}
-								onChangeText={(e) => this.handleInputChange(e, 'question')}
-								placeholder={'What question would you like to ask?'}
-							/>
-						</InputContainer>
-						<InputContainer style={{ marginTop: 20 }}>
-							<Input
-								value={card.answer}
-								onChangeText={(e) => this.handleInputChange(e, 'answer')}
-								placeholder={'And the answer is...'}
-							/>
-						</InputContainer>
-					</View>
-					<View style={{ flex: 1 }}>
-						<SubmitBtn style={styles.btnSubmit} onPress={this.submit}>
-							Add Card
-						</SubmitBtn>
-					</View>
-				</KeyboardAvoidingView>
-			</LinearGradient>
+			<TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+				<LinearGradient colors={getBackgroundColor(cardColor)} style={{ flex: 1 }}>
+					<KeyboardAvoidingView behavior="padding" style={styles.container}>
+						<View style={styles.blcForm}>
+							<InputContainer>
+								<Input
+									value={card.question}
+									onChangeText={(e) => this.handleInputChange(e, 'question')}
+									placeholder={'What question would you like to ask?'}
+								/>
+							</InputContainer>
+							<InputContainer style={{ marginTop: 20 }}>
+								<Input
+									value={card.answer}
+									onChangeText={(e) => this.handleInputChange(e, 'answer')}
+									placeholder={'And the answer is...'}
+								/>
+							</InputContainer>
+						</View>
+						<View style={{ flex: 1 }}>
+							<SubmitBtn style={styles.btnSubmit} onPress={this.submit}>
+								Add Card
+							</SubmitBtn>
+						</View>
+					</KeyboardAvoidingView>
+				</LinearGradient>
+			</TouchableWithoutFeedback>
 		);
 	}
 }
