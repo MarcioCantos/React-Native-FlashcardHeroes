@@ -1,6 +1,6 @@
 # Flashcard Heroes
 
-This is a flashcard react-native project where you can make build a lot of Decks and fulfill them with questions and answers. This projects is the third and last one of React Nanodegree from Udacity.
+This is a flashcard react-native project where you can build a lot of Decks and fulfill them with questions and answers. This projects is the third and last one of React Nanodegree from Udacity.
 The main idea of this project is to challenge your friends (or yourself, why not?) and test your knowledge about this great HQ universe.
 
 ## Install
@@ -18,7 +18,6 @@ npm:
 
 
 ## Start
-To run a development server (live reloading in [http://localhost:3000](http://localhost:3000):
 
     $ npm start
 
