@@ -7,6 +7,7 @@ import { getBackgroundColor, QUIZPAGE_COLOR } from '../../utils/helpers';
 import ProgressBar from './ProgressBar';
 import BackCard from './Card/BackCard';
 import FaceCard from './Card/FaceCard';
+import ResultCard from './Card/ResultCard';
 
 class CardPage extends Component {
 	constructor(props) {
@@ -27,15 +28,14 @@ class CardPage extends Component {
 	};
 
 	handleAnswer = (answer) => {
-		const { corrects, currentQuestion, totalQuestions } = this.state;
+		const { corrects, currentQuestion, totalQuestions, progress } = this.state;
 
 		const score = answer ? corrects + 1 : corrects;
-		const answered = currentQuestion > totalQuestions ? currentQuestion : currentQuestion + 1;
 
 		this.setState(() => ({
 			corrects: score,
-			currentQuestion: answered,
-			progress: Math.round((answered - 1) * 100 / totalQuestions) //(-1) because % starts at 0
+			progress: Math.round(currentQuestion / totalQuestions * 100),
+			currentQuestion: progress < 100 ? currentQuestion + 1 : currentQuestion
 		}));
 
 		this.toggleFlip();
@@ -43,7 +43,6 @@ class CardPage extends Component {
 
 	handleGiveUpClick = () => {
 		const { name } = this.props.navigation.state.params;
-
 		Alert.alert(
 			`GIVE UP!`,
 			`Would you like to quit ${name}'s Quiz?`,
@@ -58,10 +57,27 @@ class CardPage extends Component {
 		);
 	};
 
+	restartQuiz = () => {
+		this.setState(() => ({
+			corrects: 0,
+			currentQuestion: 1,
+			progress: 0,
+			flipped: false
+		}));
+	};
+
+	goBack = () => {
+		this.props.navigation.navigate('Home');
+	};
+
 	render() {
 		const { name, questions } = this.props.navigation.state.params;
-		const { progress, currentQuestion, totalQuestions } = this.state;
-		console.log('progress: ', progress);
+		const { progress, totalQuestions, corrects } = this.state;
+		console.log('current progress: ', progress);
+
+		const currentQuestion = progress < 100 ? this.state.currentQuestion : this.state.currentQuestion - 1;
+		console.log('current question: ', currentQuestion);
+
 		const { question, answer } = questions[currentQuestion - 1];
 
 		return (
@@ -77,20 +93,33 @@ class CardPage extends Component {
 					<FlipCard
 						flipHorizontal={true}
 						flipVertical={false}
-						friction={3}
+						friction={5}
 						clickable={false}
 						flip={this.state.flipped}
+						useNativeDriver={true}
 					>
 						{/* Front face of the card */}
-						<FaceCard flip={this.toggleFlip} card={question} />
+						{progress < 100 ? (
+							<FaceCard flip={this.toggleFlip} card={question} />
+						) : (
+							<ResultCard
+								flip={this.state.flipped}
+								corrects={corrects}
+								total={totalQuestions}
+								goBack={this.goBack}
+								restart={this.restartQuiz}
+							/>
+						)}
 						{/* Back face of the card */}
 						<BackCard handleAnswer={this.handleAnswer} card={answer} />
 					</FlipCard>
 				</Container>
 				<Footer>
-					<BtnSair onPress={this.handleGiveUpClick}>
-						<Text>Give Up!</Text>
-					</BtnSair>
+					{progress < 100 && (
+						<BtnSair onPress={this.handleGiveUpClick}>
+							<Text>Give Up!</Text>
+						</BtnSair>
+					)}
 				</Footer>
 			</LinearGradient>
 		);

@@ -13,6 +13,10 @@ export const Back = styled(Face)`
     color: #ccc;
 `;
 
+export const Result = styled(Face)`
+	background-color: rgba(0,0,0,0);
+`;
+
 export const QuestionTxt = styled.Text`
 	font-size: 24px;
 	font-weight: bold;
@@ -22,4 +26,12 @@ export const QuestionTxt = styled.Text`
 
 export const AnswerTxt = styled(QuestionTxt)`
     color : white;
+`;
+
+export const ResultTxt = styled(QuestionTxt)`
+	color: white;
+`;
+
+export const ScoreTxt = styled(AnswerTxt)`
+	font-size:16px;
 `;
